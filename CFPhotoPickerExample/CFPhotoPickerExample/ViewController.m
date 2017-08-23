@@ -43,7 +43,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     PhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCollectionViewCell" forIndexPath:indexPath];
     if (indexPath.row == 0) {
-        cell.imageV.backgroundColor = [UIColor yellowColor];
+        cell.imageV.image = [UIImage imageNamed:@"ic_添加"];
     } else {
         cell.imageV.image = self.images[indexPath.row - 1];
     }
@@ -64,6 +64,10 @@
 - (void)cfPhotoPickerDidSelectPhotoImages:(NSArray<UIImage *> *)images {
     self.images = images;
     [self.collectionV reloadData];
+}
+
+- (void)cfPhotoPickerDidSelectCameraImage:(UIImage *)image {
+    
 }
 
 - (void)didReceiveMemoryWarning {

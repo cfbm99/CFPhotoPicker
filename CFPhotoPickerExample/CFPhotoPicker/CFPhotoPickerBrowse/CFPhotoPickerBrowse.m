@@ -50,6 +50,7 @@
     [self.view addSubview:self.photoCollectionV];
     [self createCustomNav];
     self.currentModel = self.items[self.selectIndex];
+    [self setSelectBtnDisplayByClick:false];
 }
 
 - (void)updateSubViewsFrame {
@@ -107,12 +108,12 @@
     } else {
          [self.selectedItems removeObject:self.currentModel];
     }
-    [self setSelectedBtnWithIsSelected:btn.isSelected];
+    [self setSelectBtnDisplayByClick:true];
 }
 
-- (void)setSelectedBtnWithIsSelected:(BOOL)isSelected {
-    self.selectedBtn.selected = isSelected;
-    if (isSelected) {
+- (void)setSelectBtnDisplayByClick:(BOOL)isClick {
+    self.selectedBtn.selected = self.currentModel.isSelected;
+    if (self.currentModel.isSelected) {
         self.selectedBtn.backgroundColor = [UIColor colorWithRed:32.0 / 256 green:203.0 / 256 blue:106.0 / 256 alpha:1];
         [self.selectedBtn setBackgroundImage:nil forState:UIControlStateNormal];
         [self.selectedBtn setTitle:[NSString stringWithFormat:@"%ld",self.currentModel.selectedNum] forState:UIControlStateNormal];
@@ -120,7 +121,9 @@
         [self.selectedBtn setBackgroundImage:[UIImage imageNamed:@"CFPhotoPickerBundle.bundle/导航栏未选择"] forState:UIControlStateNormal];
         [self.selectedBtn setTitle:nil forState:UIControlStateNormal];
         self.selectedBtn.backgroundColor = nil;
-        [self updateSelectedModelsNum];
+        if (isClick) {
+            [self updateSelectedModelsNum];
+        }
     }
 }
 
@@ -163,7 +166,7 @@
     CGFloat offsetX = scrollView.contentOffset.x + CGRectGetWidth(self.photoCollectionV.frame) / 2;
     NSInteger index = (NSInteger)(offsetX / CGRectGetWidth(self.photoCollectionV.frame));
     self.currentModel = self.items[index];
-    [self setSelectedBtnWithIsSelected:self.currentModel.isSelected];
+    [self setSelectBtnDisplayByClick:false];
 }
 
 #pragma mark -- CFPhotoPickerBrowseCollectionViewCellDelegate

@@ -64,8 +64,8 @@
         originY = 0;
     }
     self.imageV.frame = CGRectMake(0, originY, width, height);
-    if (CGRectGetHeight(self.scrollView.frame) / height > 2) {
-        
+    if (width > height) {
+        self.scrollView.maximumZoomScale = CGRectGetHeight(self.scrollView.frame) / height + 1;
     }
 }
 
@@ -90,7 +90,7 @@
 - (void)doubleTapAction:(UITapGestureRecognizer *)tap {
     if (tap.state == UIGestureRecognizerStateEnded) {
         if (self.scrollView.zoomScale <= 1) {
-            CGFloat scale = 2;
+            CGFloat scale = self.scrollView.maximumZoomScale;
             if (CGRectGetHeight(self.scrollView.frame) / CGRectGetHeight(self.imageV.frame) > 2) {
                 scale = CGRectGetHeight(self.scrollView.frame) / CGRectGetHeight(self.imageV.frame);
             }
@@ -123,6 +123,7 @@
         _scrollView = [[UIScrollView alloc]init];
         _scrollView.showsVerticalScrollIndicator = false;
         _scrollView.showsHorizontalScrollIndicator = false;
+        _scrollView.maximumZoomScale = 3;
         _scrollView.delegate = self;
     }
     return _scrollView;
