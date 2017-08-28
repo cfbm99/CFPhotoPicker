@@ -1,6 +1,8 @@
 # CFPhotoPicker
 CFPhotoPicker是一款基于Photos框架的照片选择器，可以方便的在项目中使用。
 
+https://github.com/cfbm99/CFPhotoPicker/blob/master/Resource/cfPhotoPickerGIf.gif
+
 快速集成
 =====
  1、添加库
