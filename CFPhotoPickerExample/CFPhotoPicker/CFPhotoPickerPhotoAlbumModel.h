@@ -13,7 +13,7 @@
 @interface CFPhotoPickerPhotoAlbumModel : NSObject
 
 @property (nonatomic, copy) NSString *photoAlbumName;
-@property (nonatomic, strong) NSArray<CFPhotoPickerPHAssetModel *> *phAssetModels;
+@property (nonatomic, copy) NSArray<CFPhotoPickerPHAssetModel *> *phAssetModels;
 
 - (instancetype)initWithPhotoAlbumName:(NSString *)name phAssetCollection:(PHAssetCollection *)phAssetCollection;
 

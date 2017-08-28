@@ -20,6 +20,6 @@
 @interface CFPhotoPicker : UIViewController
 
 @property (nonatomic, weak) id<CFPhotoPickerDelegate> delegate;
-@property (nonatomic, assign)NSInteger cfPhotoPickerMaxSelectNum;
+@property (nonatomic, assign)NSInteger maximumSelectedNum;
 
 @end

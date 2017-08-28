@@ -24,12 +24,13 @@
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
 @property (nonatomic, assign) CGSize thumbnailSize;
 @property (nonatomic, strong) NSMutableArray<CFPhotoPickerPHAssetModel *> *selectedPHAssets;
-@property (nonatomic, assign) BOOL updateFrame;
+@property (nonatomic, assign) BOOL hasInit;
 
 @end
 
 @implementation CFPhotoPicker
 
+#pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -41,14 +42,14 @@
     [self updateSubViewFrame];
 }
 
+#pragma mark -- initialize ui
+
 - (void)initializeInterface {
     self.view.backgroundColor = [UIColor whiteColor];
     [self createCustomNav];
     [self addSubViews];
     [self requestForAuthorization];
 }
-
-#pragma mark -- ui methods
 
 - (void)requestForAuthorization {
     if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
@@ -70,7 +71,7 @@
 }
 
 - (void)updateSubViewFrame {
-    if (self.updateFrame) {
+    if (self.hasInit) {
         return;
     }
     CGFloat width = CGRectGetWidth(self.view.frame);
@@ -82,7 +83,7 @@
     self.photosCollectionView.frame = CGRectMake(0, 64, width, height - 64);
     self.thumbnailSize = CGSizeMake(itemWidth * scale, itemWidth * scale);
     ((UICollectionViewFlowLayout *)self.photosCollectionView.collectionViewLayout).itemSize = CGSizeMake(itemWidth, itemWidth);
-    self.updateFrame = true;
+    self.hasInit = true;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -260,7 +261,7 @@
         [self showCamera];
         return;
     }
-    CFPhotoPickerBrowse *browse = [CFPhotoPickerBrowse cfPhotoPickerBrowseWithItems:self.albumModel.phAssetModels scrollToIndex:indexPath.row - 1 maxSelectNum:self.cfPhotoPickerMaxSelectNum selectedItems:self.selectedPHAssets];
+    CFPhotoPickerBrowse *browse = [CFPhotoPickerBrowse cfPhotoPickerBrowseWithItems:self.albumModel.phAssetModels scrollToIndex:indexPath.row - 1 maxSelectNum:self.maximumSelectedNum selectedItems:self.selectedPHAssets];
     browse.vcDismissBlock = ^(NSMutableArray *selectedItems){
         self.selectedPHAssets = selectedItems;
         [self.photosCollectionView reloadData];
@@ -290,7 +291,7 @@
 }
 
 - (NSInteger)theMaximumNumberOfChoices {
-    return self.cfPhotoPickerMaxSelectNum;
+    return self.maximumSelectedNum;
 }
 
 - (void)updateSelectedBtnsTitle {
@@ -301,7 +302,7 @@
 }
 
 - (void)showReachedMaximumAlertView {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"你最多只能选择%ld张照片",self.cfPhotoPickerMaxSelectNum] message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"你最多只能选择%ld张照片",self.maximumSelectedNum] message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"我知道了" style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:sure];
     [self presentViewController:alert animated:true completion:nil];
