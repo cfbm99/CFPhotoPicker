@@ -14,7 +14,7 @@ CFPhotoPicker是一款基于Photos框架的照片选择器，可以方便的在�
 \\self是控制器
 CFPhotoPicker *picker = [[CFPhotoPicker alloc]init];
 picker.delegate = self;
-picker.cfPhotoPickerMaxSelectNum = 9;//设置最大照片选择数
+picker.maximumSelectedNum = 9;//设置最大照片选择数
 [self presentViewController:picker animated:true completion:nil];
 ```
 3、照片选择完成使用代理方法
