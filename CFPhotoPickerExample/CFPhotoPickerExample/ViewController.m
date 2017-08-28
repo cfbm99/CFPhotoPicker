@@ -54,7 +54,7 @@
     if (indexPath.row == 0) {
         CFPhotoPicker *picker = [[CFPhotoPicker alloc]init];
         picker.delegate = self;
-        picker.cfPhotoPickerMaxSelectNum = 9;
+        picker.maximumSelectedNum = 9;
         [self presentViewController:picker animated:true completion:nil];
     }
 }
