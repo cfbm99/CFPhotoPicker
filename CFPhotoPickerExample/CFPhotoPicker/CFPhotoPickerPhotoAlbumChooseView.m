@@ -13,13 +13,13 @@
 @interface CFPhotoPickerPhotoAlbumChooseView ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong)UITableView *photoAlbumTableView;
-@property (nonatomic, strong)NSArray<CFPhotoPickerPhotoAlbumModel *> *photoAlbumModels;
 @property (nonatomic, assign)CGSize thumbnailSize;
 
 @end
 
 @implementation CFPhotoPickerPhotoAlbumChooseView
 
+//private funcs
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -37,10 +37,10 @@
     self.photoAlbumTableView.frame = self.bounds;
 }
 
-- (void)cfPhotoPickerPhotoAlbumChooseViewDidSelectRow:(NSInteger)row {
-    self.photoAlbumModels = [CFPhotoPickerPhotoResource fetchAllPhotoAlbums];
+#pragma mark -- setter
+-(void)setPhotoAlbumModels:(NSArray<CFPhotoPickerPhotoAlbumModel *> *)photoAlbumModels {
+    _photoAlbumModels = photoAlbumModels;
     [self.photoAlbumTableView reloadData];
-    [self tableView:self.photoAlbumTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
 }
 
 #pragma mark -- <UITableViewDelegate, UITableViewDataSource>

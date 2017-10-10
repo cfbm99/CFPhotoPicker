@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
+#import "CFPhotoPickerPhotoAlbumModel.h"
 
 @interface CFPhotoPickerPhotoResource : NSObject
 
-+ (NSArray *)requestForPhotoResource;
+//+ (NSArray *)requestForPhotoResource;
 
-+ (NSArray *)fetchAllPhotoAlbums;
++ (NSArray<CFPhotoPickerPhotoAlbumModel *> *)fetchAllPhotoAlbums;
 
 @end

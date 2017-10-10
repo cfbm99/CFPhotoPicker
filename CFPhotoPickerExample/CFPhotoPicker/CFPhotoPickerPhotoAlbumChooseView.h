@@ -18,8 +18,7 @@
 
 @interface CFPhotoPickerPhotoAlbumChooseView : UIView
 
+@property (nonatomic, copy)NSArray<CFPhotoPickerPhotoAlbumModel *> *photoAlbumModels;
 @property (nonatomic, weak)id<CFPhotoPickerPhotoAlbumChooseViewDelegate> delegate;
-
-- (void)cfPhotoPickerPhotoAlbumChooseViewDidSelectRow:(NSInteger)row;
 
 @end

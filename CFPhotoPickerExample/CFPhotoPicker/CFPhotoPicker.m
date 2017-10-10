@@ -11,6 +11,7 @@
 #import "CFPhotoPickerCameraPreview.h"
 #import "CFPhotoPickerPhotoAlbumChooseView.h"
 #import "CFPhotoPickerBrowse.h"
+#import "CFPhotoPickerPhotoResource.h"
 
 @interface CFPhotoPicker ()<UICollectionViewDelegate, UICollectionViewDataSource, CFPhotoPickerPhotoAlbumChooseViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CFPhotoPickerThumbnailDelegate>
 
@@ -52,16 +53,26 @@
 }
 
 - (void)requestForAuthorization {
+    [self.titleSelectBtn setEnabled:false];
     if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
             if (status == PHAuthorizationStatusAuthorized) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.albumChooseView cfPhotoPickerPhotoAlbumChooseViewDidSelectRow:0];
+                    [self requestForPhotos];
                 });
             }
         }];
     } else if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
-        [self.albumChooseView cfPhotoPickerPhotoAlbumChooseViewDidSelectRow:0];
+        [self requestForPhotos];
+    }
+}
+
+- (void)requestForPhotos {
+    NSArray<CFPhotoPickerPhotoAlbumModel *> *models = [CFPhotoPickerPhotoResource fetchAllPhotoAlbums];
+    if (models && models.count > 0) {
+        [self didSelectPhotoAlbumModel:models.firstObject];
+        self.albumChooseView.photoAlbumModels = models;
+        [self.titleSelectBtn setEnabled:true];
     }
 }
 
